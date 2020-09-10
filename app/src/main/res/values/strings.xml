@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Testing Kotlin</string>
+    <string name="hello_world">Hello World!</string>
+
+    <string name="your_passwords">YOUR PASSWORDS</string>
+    <string name="your_tasks">YOUR TASKS</string>
+
+    <string name="sing_up"><u>Sign up</u></string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="log_in">Log In!</string>
+    <string name="full_name">Full name</string>
+    <string name="back_to_log_in">Back to Log In</string>
+</resources>
