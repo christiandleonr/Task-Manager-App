@@ -26,12 +26,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var logIn: Button
     private lateinit var signIn: TextView
 
-    private val networkHandler: NetworkHandler = NetworkHandler()
-    private val apiConnect: APIConnect = networkHandler
-        .getRetrofit()
-        .create(APIConnect::class.java)
-
-    private val utilities: Utilities = Utilities()
+    private val u: Utilities = Utilities()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +45,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         if (v == logIn){
             logIn()
         }else if (v == signIn){
-            utilities.runStartActivity(
+            u.runStartActivity(
                 this@LoginActivity,
                 this@LoginActivity,
                 RegisterActivity::class.java
@@ -60,12 +55,12 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     @SuppressLint("CommitPrefEdits")
     private fun logIn(){
-        val editor: SharedPreferences.Editor = getEditor()
+        val editor: SharedPreferences.Editor = u.getEditor(this)
 
         val email: String = email.text.toString()
         val password: String = password.text.toString()
 
-        val call: Call<ResLogin> = apiConnect.loginUser(ReqLogin(email, password))
+        val call: Call<ResLogin> = u.getAPIConnect().loginUser(ReqLogin(email, password))
 
         call.enqueue(object: Callback<ResLogin> {
             override fun onResponse(call: Call<ResLogin>, response: Response<ResLogin>) {
@@ -76,7 +71,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                     response.body()?.user?.age?.let { editor.putInt("age", it) }
                     response.body()?.user?.email?.let { editor.putString("email", it) }
 
-                    utilities.runStartActivity(
+                    u.runStartActivity(
                         this@LoginActivity,
                         this@LoginActivity,
                         MainActivity::class.java
@@ -91,7 +86,4 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             }
         })
     }
-
-    private fun getEditor(): SharedPreferences.Editor =
-        getSharedPreferences("data", Context.MODE_PRIVATE).edit()
 }
